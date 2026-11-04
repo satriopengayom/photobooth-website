@@ -196,12 +196,13 @@ Lihat `docs/PRD.md` untuk spesifikasi lengkap product requirements.
 - [x] Build dan dev server berfungsi
 
 ### Next: Fase 2 - Camera System
-- Camera utilities & hooks (useCamera, useCountdown)
-- Camera UI layout (preview, settings, thumbnails)
-- Manual capture (Per Foto & Per Sesi)
-- Gesture detection dengan MediaPipe
-- Gesture capture (Per Foto & Per Sesi)
+### FASE 2 SELESAI ✓
 
+- [x] Camera utilities & hooks (useCamera, useCountdown)
+- [x] Camera UI layout (preview, settings, thumbnails)
+- [x] Manual capture (Per Foto & Per Sesi)
+- [x] Gesture detection dengan MediaPipe
+- [x] Gesture capture (Per Foto & Per Sesi)
 ---
 
 **Last Updated**: Fase 1 Complete - 2 Nov 2026
