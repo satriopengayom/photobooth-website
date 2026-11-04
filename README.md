@@ -203,6 +203,17 @@ Lihat `docs/PRD.md` untuk spesifikasi lengkap product requirements.
 - [x] Manual capture (Per Foto & Per Sesi)
 - [x] Gesture detection dengan MediaPipe
 - [x] Gesture capture (Per Foto & Per Sesi)
+
+### Next: Fase 3 - Review & Retake
+### FASE 3 SELESAI ✓
+
+- [x] Review hasil foto
+- [x] Tampilan foto dalam grid (3 dan 4 foto)
+- [x] Tombol Retake Foto
+- [x] Mengganti foto pada slot tertentu
+- [x] Mempertahankan foto lainnya saat retake
+
+### Next: Fase 4 - Photo Editor
 ---
 
 **Last Updated**: Fase 1 Complete - 2 Nov 2026
