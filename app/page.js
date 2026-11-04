@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import Button from '@/components/ui/Button'
 
 export default function LandingPage() {
   const router = useRouter()
@@ -10,183 +9,301 @@ export default function LandingPage() {
     router.push('/camera')
   }
 
+  const handleSeeFeatures = () => {
+    const target = document.getElementById('features')
+    if (target) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="max-w-5xl mx-auto">
-          {/* Main Hero Content */}
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
-                ✨ Tanpa Install Aplikasi
-              </span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-              Photo Booth
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                di Browser
-              </span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
-              Ambil foto dengan mudah langsung dari browser Anda
-            </p>
-            
-            <p className="text-base md:text-lg text-gray-500 mb-10 max-w-2xl mx-auto">
-              Tidak perlu aplikasi khusus. Cukup gunakan kamera laptop atau HP Anda untuk mengambil foto bergaya photo booth profesional.
-            </p>
-
-            {/* CTA Button */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
-              <Button 
-                onClick={handleStartSession}
-                className="text-lg px-10 py-4 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200 w-full md:w-auto"
-              >
-                <span className="flex items-center gap-2">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  Mulai Sesi Foto
-                </span>
-              </Button>
-              
-              <button 
-                onClick={() => {
-                  const target = document.getElementById('features')
-                  if (target) {
-                    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-                    target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
-                  }
-                }}
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors py-3 px-4 w-full md:w-auto"
-              >
-                Lihat Fitur →
-              </button>
-            </div>
-
-            <p className="text-sm text-gray-500 flex items-center justify-center gap-2">
-              <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Kamera akan diminta izin setelah Anda memulai sesi
-            </p>
+    <div className="min-h-screen bg-[#F7F4EF] text-[#1A1A1A]">
+      <div className="mx-auto max-w-5xl px-6 sm:px-10">
+        {/* Top bar */}
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-black/10 py-5">
+          <div className="flex items-center gap-2">
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.6}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="font-serif text-lg tracking-tight">Photo Booth</span>
+            <span className="font-serif text-lg italic text-black/50">di browser</span>
           </div>
 
-          {/* Features Section */}
-          <div id="features" className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="flex items-center gap-3 text-[11px] text-black/55">
+            <button
+              type="button"
+              onClick={handleSeeFeatures}
+              className="underline decoration-black/25 underline-offset-4 transition hover:text-black"
+            >
+              Cara pakai
+            </button>
+            <span className="h-1 w-1 rounded-full bg-black/30" aria-hidden="true" />
+            <span>Laptop atau ponsel. Tanpa instalasi.</span>
+          </div>
+        </header>
+
+        {/* Hero */}
+        <section className="mx-auto max-w-2xl py-16 text-center sm:py-24">
+          <h1 className="font-serif text-5xl leading-[1.05] tracking-tight sm:text-7xl">
+            Photo Booth
+            <br />
+            di Browser
+          </h1>
+
+          <p className="mt-8 text-sm text-black/60 sm:text-base">
+            Ambil foto dengan mudah langsung dari browser Anda.
+          </p>
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-black/45">
+            Tidak perlu aplikasi khusus. Cukup gunakan kamera laptop atau HP Anda untuk
+            mengambil foto bergaya photo booth profesional.
+          </p>
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <button
+              type="button"
+              onClick={handleStartSession}
+              className="group inline-flex w-full items-center justify-center gap-3 rounded-sm bg-[#1E1C1A] px-6 py-3.5 text-xs font-semibold text-white transition hover:bg-black sm:w-auto"
+            >
+              Mulai Sesi Foto
+              <svg
+                className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleSeeFeatures}
+              className="inline-flex w-full items-center justify-center gap-3 rounded-sm border border-black/20 bg-white px-6 py-3.5 text-xs font-semibold text-black/80 transition hover:border-black/40 hover:text-black sm:w-auto"
+            >
+              Lihat Fitur
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+
+          <p className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-black/45">
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.6}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+            Kamera akan diminta izin setelah Anda memulai sesi.
+          </p>
+
+          <p className="mt-7 text-[10px] uppercase tracking-[0.18em] text-black/40">
+            3 atau 4 foto &nbsp;·&nbsp; Filter &amp; bingkai &nbsp;·&nbsp; Satu strip, banyak cerita
+          </p>
+        </section>
+
+        <hr className="border-black/10" />
+
+        {/* Features */}
+        <section id="features" className="scroll-mt-8 py-12">
+          <div className="mb-6 flex items-baseline justify-between gap-4">
+            <h2 className="font-serif text-2xl tracking-tight sm:text-3xl">
+              Semua yang kamu butuhkan.
+            </h2>
+            <span className="shrink-0 text-[10px] uppercase tracking-[0.2em] text-black/35">
+              Fitur Unggulan
+            </span>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
             {/* Feature 1 */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-5 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            <div className="rounded-sm bg-[#EDE7DE] p-6">
+              <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md bg-[#1E1C1A]">
+                <svg
+                  className="h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Ambil 3-4 Foto</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Pilih untuk mengambil 3 atau 4 foto dalam satu sesi. Atur countdown dan mode pengambilan sesuai keinginan.
+              <h3 className="mb-2 text-sm font-semibold">Ambil 3-4 Foto</h3>
+              <p className="text-xs leading-relaxed text-black/55">
+                Pilih untuk mengambil 3 atau 4 foto dalam satu sesi. Atur countdown dan mode
+                pengambilan sesuai keinginan.
               </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-5 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+            <div className="rounded-sm bg-[#EDE7DE] p-6">
+              <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md bg-[#1E1C1A]">
+                <svg
+                  className="h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"
+                  />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Mode Gesture</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Gunakan gesture tangan (Peace ✌️ atau Open Palm ✋) untuk memicu pengambilan foto secara otomatis.
+              <h3 className="mb-2 text-sm font-semibold">Mode Gesture</h3>
+              <p className="text-xs leading-relaxed text-black/55">
+                Gunakan gesture tangan (Peace ✌️ atau Open Palm ✋) untuk memicu pengambilan
+                foto secara otomatis.
               </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
-              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-5 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <div className="rounded-sm bg-[#EDE7DE] p-6">
+              <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-md bg-[#1E1C1A]">
+                <svg
+                  className="h-5 w-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Edit & Download</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Tinjau hasil foto, ulangi foto tertentu, tambahkan filter dan bingkai, lalu download sebagai satu gambar.
+              <h3 className="mb-2 text-sm font-semibold">Edit &amp; Download</h3>
+              <p className="text-xs leading-relaxed text-black/55">
+                Tinjau hasil foto, ulangi foto tertentu, tambahkan filter dan bingkai, lalu
+                download sebagai satu gambar.
               </p>
             </div>
           </div>
+        </section>
 
-          {/* How It Works */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-gray-100">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Cara Menggunakan</h2>
-            
-            <div className="grid md:grid-cols-4 gap-6">
-              {/* Step 1 */}
-              <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                  <span aria-hidden="true">1</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Mulai Sesi</h4>
-                <p className="text-sm text-gray-600">Klik tombol "Mulai Sesi Foto" dan izinkan akses kamera</p>
-              </div>
+        <hr className="border-black/10" />
 
-              {/* Step 2 */}
-              <div className="text-center">
-                <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                  <span aria-hidden="true">2</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Atur Preferensi</h4>
-                <p className="text-sm text-gray-600">Pilih jumlah foto, countdown, dan mode pengambilan</p>
-              </div>
+        {/* How it works */}
+        <section className="py-12">
+          <div className="mb-8 flex items-baseline justify-between gap-4">
+            <h2 className="font-serif text-2xl tracking-tight sm:text-3xl">Cara Menggunakan.</h2>
+            <span className="shrink-0 text-[10px] uppercase tracking-[0.2em] text-black/35">
+              Empat Langkah Sederhana
+            </span>
+          </div>
 
-              {/* Step 3 */}
-              <div className="text-center">
-                <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                  <span aria-hidden="true">3</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Ambil Foto</h4>
-                <p className="text-sm text-gray-600">Ambil 3-4 foto, tinjau hasil, dan ulangi jika perlu</p>
-              </div>
+          <div className="grid gap-8 sm:grid-cols-4 sm:gap-5">
+            <div>
+              <p className="mb-2 font-serif text-sm italic text-black/40">01</p>
+              <h3 className="mb-1.5 text-sm font-semibold">Mulai Sesi</h3>
+              <p className="text-xs leading-relaxed text-black/50">
+                Klik tombol &quot;Mulai Sesi Foto&quot; dan izinkan akses kamera.
+              </p>
+            </div>
 
-              {/* Step 4 */}
-              <div className="text-center">
-                <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                  <span aria-hidden="true">4</span>
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Edit & Simpan</h4>
-                <p className="text-sm text-gray-600">Tambahkan filter dan bingkai, lalu download hasilnya</p>
-              </div>
+            <div>
+              <p className="mb-2 font-serif text-sm italic text-black/40">02</p>
+              <h3 className="mb-1.5 text-sm font-semibold">Atur Preferensi</h3>
+              <p className="text-xs leading-relaxed text-black/50">
+                Pilih jumlah foto, countdown, dan mode pengambilan.
+              </p>
+            </div>
+
+            <div>
+              <p className="mb-2 font-serif text-sm italic text-black/40">03</p>
+              <h3 className="mb-1.5 text-sm font-semibold">Ambil Foto</h3>
+              <p className="text-xs leading-relaxed text-black/50">
+                Ambil 3-4 foto, tinjau hasil, dan ulangi jika perlu.
+              </p>
+            </div>
+
+            <div>
+              <p className="mb-2 font-serif text-sm italic text-black/40">04</p>
+              <h3 className="mb-1.5 text-sm font-semibold">Edit &amp; Simpan</h3>
+              <p className="text-xs leading-relaxed text-black/50">
+                Tambahkan filter dan bingkai, lalu download hasilnya.
+              </p>
             </div>
           </div>
+        </section>
 
-          {/* Info Banner */}
-          <div className="mt-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-            <div className="flex items-start gap-4">
-              <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-1">Catatan Penting</h4>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  Data foto Anda tersimpan sementara di browser dan akan hilang saat halaman ditutup atau di-refresh. 
-                  Pastikan untuk mengunduh hasil foto sebelum meninggalkan halaman.
-                </p>
-              </div>
-            </div>
+        {/* Note */}
+        <div className="mb-12 flex items-start gap-4 rounded-sm bg-[#EDE7DE] p-5">
+          <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/20">
+            <svg
+              className="h-3.5 w-3.5 text-black/50"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.8}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </span>
+          <div>
+            <h4 className="mb-1 text-xs font-semibold">Catatan Penting</h4>
+            <p className="text-[11px] leading-relaxed text-black/50">
+              Data foto Anda tersimpan sementara di browser dan akan hilang saat halaman ditutup
+              atau di-refresh. Pastikan untuk mengunduh hasil foto sebelum meninggalkan halaman.
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="border-t border-gray-200 bg-white/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-sm text-gray-600">
-            <p>© 2026 Photo Booth. Website photo booth berbasis web yang mudah digunakan.</p>
-            <p className="mt-2">Kompatibel dengan browser modern: Chrome, Firefox, Safari, Edge</p>
-          </div>
-        </div>
+        {/* Footer */}
+        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-black/10 py-5 text-[10px] uppercase tracking-[0.2em] text-black/35">
+          <span>Photo Booth / di Browser</span>
+          <span className="font-serif text-sm normal-case italic tracking-normal text-black/45">
+            Momen kecil juga layak diingatkan.
+          </span>
+        </footer>
       </div>
     </div>
   )
