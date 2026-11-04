@@ -9,7 +9,7 @@ Website Photo Booth berbasis web yang memungkinkan pengguna mengambil beberapa f
 - [x] Project initialization
 - [x] Context & State Management
 - [x] Landing Page
-- [ ] Camera System (Fase 2)
+- [x] Camera System (Fase 2)
 - [ ] Review & Retake (Fase 3)
 - [ ] Photo Editor (Fase 4)
 - [ ] Polish & Finalization (Fase 5)
