@@ -194,9 +194,7 @@ export default function CameraPage() {
   }
 
   const handleCancel = () => {
-    if (countdownActive) {
-      manualCapture.countdown.cancel()
-    }
+    manualCapture.cancelSession()
     resetSession()
   }
 
@@ -262,23 +260,36 @@ export default function CameraPage() {
     hintStrong = true
     hintNote = 'Tinjau hasil jepretanmu sebelum lanjut ke studio hias.'
   } else if (settings.mode === 'gesture') {
-    hintText = gestureDetection.statusMessage
-    hintStrong = gestureDetection.gestureStatus === 'confirmed'
-    hintNote = gestureDetection.currentGesture
-      ? `Terbaca: ${GESTURE_LABEL[gestureDetection.currentGesture]}`
-      : sessionStarted
-        ? 'Tunjukkan gesture untuk foto berikutnya.'
-        : 'Gesture akan memulai sesi otomatis.'
+    if (countdownActive) {
+      hintText = 'Countdown berlangsung...'
+      hintStrong = true
+      hintNote = 'Gesture tambahan tidak akan memicu foto lain.'
+    } else if (
+      gestureDetection.isGestureConfirmed &&
+      sessionStarted &&
+      filledCount > 0 &&
+      !manualCapture.isCapturing
+    ) {
+      hintText = 'Lepaskan gesture untuk foto berikutnya.'
+      hintStrong = true
+      hintNote = gestureDetection.currentGesture
+        ? `Terbaca: ${GESTURE_LABEL[gestureDetection.currentGesture]}`
+        : null
+    } else {
+      hintText = gestureDetection.statusMessage
+      hintStrong = gestureDetection.gestureStatus === 'confirmed'
+      hintNote = gestureDetection.currentGesture
+        ? `Terbaca: ${GESTURE_LABEL[gestureDetection.currentGesture]}`
+        : sessionStarted
+          ? 'Tunjukkan gesture untuk foto berikutnya.'
+          : 'Gesture akan memulai sesi otomatis.'
+    }
   } else if (sessionStarted) {
     hintNote = `${filledCount} dari ${totalSlots} foto diambil.`
   }
 
   const showCancel =
-    sessionStarted &&
-    settings.method === 'per-foto' &&
-    !manualCapture.perSesiActive &&
-    !isRetake &&
-    !allFilled
+    sessionStarted && !isRetake && !allFilled
 
   return (
     <div className="min-h-screen bg-[#F7F4EF] text-[#1A1A1A]">

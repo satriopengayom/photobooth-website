@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePhotoSession } from '@/lib/context/PhotoSessionContext'
 import { usePhotoUrls } from '@/lib/hooks/usePhotoUrls'
@@ -9,7 +9,6 @@ import { DEFAULT_FILTER } from '@/lib/utils/editorFilters'
 import { DEFAULT_FRAME } from '@/lib/utils/editorFrames'
 import EditorPreview from '@/components/editor/EditorPreview'
 import EditorDownloadButton from '@/components/editor/EditorDownloadButton'
-import PhotoList from '@/components/editor/PhotoList'
 import EditorTabs from '@/components/editor/EditorTabs'
 import EditorSettingsPanel from '@/components/editor/EditorSettingsPanel'
 
@@ -95,6 +94,37 @@ export default function EditorPage() {
   const [photoFilter, setPhotoFilter] = useState(DEFAULT_FILTER)
   const [frame, setFrame] = useState(DEFAULT_FRAME)
   const urls = usePhotoUrls(photos)
+  const [photoOrder, setPhotoOrder] = useState(() =>
+    photos.map((_, index) => index)
+  )
+
+  const order = useMemo(
+    () =>
+      photoOrder.length === photos.length
+        ? photoOrder
+        : photos.map((_, index) => index),
+    [photoOrder, photos]
+  )
+
+  const orderedUrls = useMemo(
+    () => order.map((index) => urls[index] ?? null),
+    [order, urls]
+  )
+
+  const handleMovePhoto = (position, direction) => {
+    setPhotoOrder((previous) => {
+      const base =
+        previous.length === photos.length
+          ? [...previous]
+          : photos.map((_, index) => index)
+      const target = position + direction
+
+      if (target < 0 || target >= base.length) return previous
+
+      ;[base[position], base[target]] = [base[target], base[position]]
+      return base
+    })
+  }
 
   const hasPhotos = photos.length > 0
   const total = photos.length
@@ -154,11 +184,11 @@ export default function EditorPage() {
               </span>
             </div>
 
-            <div className="grid items-start gap-6 pb-10 lg:grid-cols-[minmax(0,1fr)_150px_300px] xl:grid-cols-[minmax(0,1fr)_160px_320px]">
+            <div className="grid items-start gap-6 pb-10 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px]">
               {/* Preview */}
               <div className="lg:order-1">
                 <EditorPreview
-                  urls={urls}
+                  urls={orderedUrls}
                   layout={layout}
                   cover={cover}
                   photoFilter={photoFilter}
@@ -167,7 +197,7 @@ export default function EditorPage() {
 
                 <div className="mt-4">
                   <EditorDownloadButton
-                    urls={urls}
+                    urls={orderedUrls}
                     layout={layout}
                     cover={cover}
                     photoFilter={photoFilter}
@@ -176,16 +206,10 @@ export default function EditorPage() {
                 </div>
               </div>
 
-              {/* Daftar foto */}
-              <div className="lg:order-2">
-                <PhotoList photos={photos} urls={urls} />
-              </div>
-
               {/* Panel pengaturan (tabs + konten) */}
-              <div className="lg:order-3">
+              <div className="lg:order-2">
                 <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.18em]">
                   <span className="font-semibold">Pengaturan</span>
-                  <span className="text-black/35">Tahap 01</span>
                 </div>
 
                 <EditorTabs activeTab={activeTab} onChange={setActiveTab} />
@@ -201,7 +225,11 @@ export default function EditorPage() {
                     onFilterChange={setPhotoFilter}
                     frame={frame}
                     onFrameChange={setFrame}
-                    previewUrl={urls[0] ?? null}
+                    previewUrl={orderedUrls[0] ?? null}
+                    photos={photos}
+                    photoUrls={urls}
+                    photoOrder={order}
+                    onMovePhoto={handleMovePhoto}
                   />
                 </div>
               </div>

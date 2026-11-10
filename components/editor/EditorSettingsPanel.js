@@ -7,6 +7,7 @@ import {
   getFilter
 } from '@/lib/utils/editorFilters'
 import { DEFAULT_FRAME, getFrameOptions } from '@/lib/utils/editorFrames'
+import PhotoList from './PhotoList'
 
 const LAYOUT_OPTIONS = [
   {
@@ -526,6 +527,10 @@ function FrameOptions({ frame, onFrameChange }) {
  * @param {string} [props.frame=DEFAULT_FRAME]
  * @param {(frameId: string) => void} [props.onFrameChange]
  * @param {string | null} [props.previewUrl]
+ * @param {Array<{ slot: number, blob: Blob | null }>} [props.photos]
+ * @param {Array<string | null>} [props.photoUrls]
+ * @param {number[]} [props.photoOrder]
+ * @param {(position: number, direction: -1 | 1) => void} [props.onMovePhoto]
  */
 export default function EditorSettingsPanel({
   activeTab,
@@ -538,7 +543,11 @@ export default function EditorSettingsPanel({
   onFilterChange = () => {},
   frame = DEFAULT_FRAME,
   onFrameChange = () => {},
-  previewUrl = null
+  previewUrl = null,
+  photos = [],
+  photoUrls = [],
+  photoOrder = [],
+  onMovePhoto = () => {}
 }) {
   const meta = TAB_META[activeTab] ?? TAB_META.layout
 
@@ -583,6 +592,15 @@ export default function EditorSettingsPanel({
               </svg>
               Preview berubah otomatis saat layout dipilih.
             </p>
+
+            <div className="mt-5 border-t border-black/10 pt-4">
+              <PhotoList
+                photos={photos}
+                urls={photoUrls}
+                order={photoOrder}
+                onMove={onMovePhoto}
+              />
+            </div>
           </>
         ) : activeTab === 'cover' ? (
           <>
