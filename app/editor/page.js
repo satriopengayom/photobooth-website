@@ -6,7 +6,10 @@ import { usePhotoSession } from '@/lib/context/PhotoSessionContext'
 import { usePhotoUrls } from '@/lib/hooks/usePhotoUrls'
 import { DEFAULT_COVER } from '@/lib/utils/editorCover'
 import { DEFAULT_FILTER } from '@/lib/utils/editorFilters'
-import { DEFAULT_FRAME } from '@/lib/utils/editorFrames'
+import {
+  DEFAULT_FRAME,
+  resolveFrameForLayout
+} from '@/lib/utils/editorFrames'
 import EditorPreview from '@/components/editor/EditorPreview'
 import EditorDownloadButton from '@/components/editor/EditorDownloadButton'
 import EditorTabs from '@/components/editor/EditorTabs'
@@ -126,6 +129,23 @@ export default function EditorPage() {
     })
   }
 
+  // Bingkai yang dipakai preview, download, dan panel selalu sudah
+  // disesuaikan dengan layout + jumlah foto aktif. Jika state lama tidak
+  // kompatibel, hasil efektifnya adalah Tanpa Bingkai.
+  const activeFrame = useMemo(
+    () => resolveFrameForLayout(frame, layout, photos.length),
+    [frame, layout, photos.length]
+  )
+
+  // Saat layout berganti, simpan pilihan yang kompatibel. Bingkai Strip yang
+  // tidak kompatibel dengan Grid direset ke Tanpa Bingkai.
+  const handleLayoutChange = (nextLayout) => {
+    setLayout(nextLayout)
+    setFrame((currentFrame) =>
+      resolveFrameForLayout(currentFrame, nextLayout, photos.length)
+    )
+  }
+
   const hasPhotos = photos.length > 0
   const total = photos.length
   const numberWord = NUMBER_WORDS[total] ?? total
@@ -192,7 +212,7 @@ export default function EditorPage() {
                   layout={layout}
                   cover={cover}
                   photoFilter={photoFilter}
-                  frame={frame}
+                  frame={activeFrame}
                 />
 
                 <div className="mt-4">
@@ -201,7 +221,7 @@ export default function EditorPage() {
                     layout={layout}
                     cover={cover}
                     photoFilter={photoFilter}
-                    frame={frame}
+                    frame={activeFrame}
                   />
                 </div>
               </div>
@@ -217,13 +237,13 @@ export default function EditorPage() {
                   <EditorSettingsPanel
                     activeTab={activeTab}
                     layout={layout}
-                    onLayoutChange={setLayout}
+                    onLayoutChange={handleLayoutChange}
                     photoCount={total}
                     cover={cover}
                     onCoverChange={setCover}
                     photoFilter={photoFilter}
                     onFilterChange={setPhotoFilter}
-                    frame={frame}
+                    frame={activeFrame}
                     onFrameChange={setFrame}
                     previewUrl={orderedUrls[0] ?? null}
                     photos={photos}

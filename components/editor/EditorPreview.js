@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { DEFAULT_COVER } from '@/lib/utils/editorCover'
 import { DEFAULT_FILTER } from '@/lib/utils/editorFilters'
-import { DEFAULT_FRAME, getFrame, isCustomFrame } from '@/lib/utils/editorFrames'
+import { DEFAULT_FRAME, getFrameSource } from '@/lib/utils/editorFrames'
 import {
   PREVIEW_LAYOUTS,
   loadCompositionFrame,
@@ -75,19 +75,22 @@ export default function EditorPreview({
         const canvas = canvasRef.current
         if (!canvas) return
 
-        // Muat PNG bingkai kustom sekali per sumber. Hasil (termasuk error)
-        // di-cache agar pergantian pengaturan tidak memicu request berulang.
+        // Muat PNG bingkai kustom sekali per sumber. Untuk bingkai bervarian,
+        // sumber berubah saat jumlah foto berubah (3 foto vs 4 foto).
         let frameImage = null
         let frameError = null
+        const frameSource = getFrameSource(frame, layout, validUrls.length)
 
-        if (isCustomFrame(frame)) {
-          const src = getFrame(frame).src
-
-          if (frameImageCacheRef.current.src !== src) {
-            const result = await loadCompositionFrame(frame)
+        if (frameSource) {
+          if (frameImageCacheRef.current.src !== frameSource) {
+            const result = await loadCompositionFrame(
+              frame,
+              layout,
+              validUrls.length
+            )
             if (cancelled) return
             frameImageCacheRef.current = {
-              src,
+              src: frameSource,
               image: result.image,
               error: result.error
             }

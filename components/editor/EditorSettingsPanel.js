@@ -6,7 +6,12 @@ import {
   PHOTO_FILTERS,
   getFilter
 } from '@/lib/utils/editorFilters'
-import { DEFAULT_FRAME, getFrameOptions } from '@/lib/utils/editorFrames'
+import {
+  DEFAULT_FRAME,
+  getFrameOptionsForLayout,
+  getFramePreviewSrc,
+  isFrameCoverEnabled
+} from '@/lib/utils/editorFrames'
 import PhotoList from './PhotoList'
 
 const LAYOUT_OPTIONS = [
@@ -447,14 +452,17 @@ function FrameGlyph({ frameId, src }) {
   )
 }
 
-function FrameOptions({ frame, onFrameChange }) {
-  const options = getFrameOptions()
+function FrameOptions({ frame, onFrameChange, layout = 'strip', photoCount = 0 }) {
+  // Hanya bingkai yang kompatibel dengan layout + jumlah foto aktif yang
+  // dirender. Bingkai Strip tidak muncul sama sekali saat Layout Grid aktif.
+  const options = getFrameOptionsForLayout(layout, photoCount)
 
   return (
     <>
       <div className="grid grid-cols-2 gap-2">
         {options.map((option) => {
           const isActive = frame === option.id
+          const previewSrc = getFramePreviewSrc(option.id, photoCount)
 
           return (
             <button
@@ -468,7 +476,7 @@ function FrameOptions({ frame, onFrameChange }) {
                   : 'border-black/10 bg-white/30 hover:border-black/30 hover:bg-white/60'
               }`}
             >
-              <FrameGlyph frameId={option.id} src={option.src} />
+              <FrameGlyph frameId={option.id} src={previewSrc} />
 
               <span className="mt-2.5 flex items-center justify-between gap-1">
                 <span
@@ -483,6 +491,11 @@ function FrameOptions({ frame, onFrameChange }) {
               <span className="mt-0.5 text-[9px] leading-relaxed text-black/35">
                 {option.description}
               </span>
+              {option.variants && photoCount > 0 && (
+                <span className="mt-1 text-[8px] font-semibold uppercase tracking-[0.12em] text-emerald-700/80">
+                  Aset {photoCount} foto otomatis
+                </span>
+              )}
             </button>
           )
         })}
@@ -610,6 +623,13 @@ export default function EditorSettingsPanel({
               photoCount={photoCount}
             />
 
+            {!isFrameCoverEnabled(frame) && (
+              <p className="mt-3 border border-amber-700/20 bg-amber-50 px-3 py-2 text-[10px] leading-relaxed text-amber-800">
+                Bingkai aktif tidak memiliki area cover. Cover tetap tersimpan
+                sebagai pengaturan, tetapi tidak ditampilkan pada bingkai ini.
+              </p>
+            )}
+
             <p className="mt-4 inline-flex items-center gap-1.5 text-[10px] text-black/40">
               <svg
                 className="h-3 w-3 text-emerald-600"
@@ -635,7 +655,12 @@ export default function EditorSettingsPanel({
             previewUrl={previewUrl}
           />
         ) : (
-          <FrameOptions frame={frame} onFrameChange={onFrameChange} />
+          <FrameOptions
+            frame={frame}
+            onFrameChange={onFrameChange}
+            layout={layout}
+            photoCount={photoCount}
+          />
         )}
       </div>
     </div>

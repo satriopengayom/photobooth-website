@@ -398,8 +398,12 @@ mengharuskan seluruh halaman editor dibuat ulang.
     pengguna.
 -   Hasil download harus mencerminkan layout, cover, filter, dan bingkai
     yang sedang dipilih.
+-   Foto pada bingkai slot dipertahankan utuh (tidak di-crop dan tidak
+    diregangkan); sisa ruang slot diisi blur foto yang sama agar tidak ada
+    pita putih.
 -   Proses download harus memberikan respons yang jelas kepada pengguna.
--   Format dan kualitas file final masih perlu ditetapkan pada bagian 7.
+-   Format final adalah PNG lossless dengan lebar minimum 1200 px agar hasil
+    lebih tajam saat disimpan atau dicetak.
 
 ------------------------------------------------------------------------
 

@@ -9,6 +9,10 @@ import {
   renderComposition
 } from '@/lib/utils/editorRenderer'
 
+// Hasil download minimal 1200 px lebar. Aset bingkai 3 foto hanya 213 px,
+// jadi ekspor dinaikkan resolusinya agar foto, teks, dan garis tidak pecah.
+const EXPORT_MIN_WIDTH = 1200
+
 function pad(value) {
   return String(value).padStart(2, '0')
 }
@@ -117,7 +121,8 @@ export default function EditorDownloadButton({
     try {
       const { images, frameImage, frameError } = await loadCompositionAssets({
         urls,
-        frame
+        frame,
+        layout
       })
 
       if (frameError) {
@@ -131,7 +136,8 @@ export default function EditorDownloadButton({
         cover,
         photoFilter,
         frame,
-        frameImage
+        frameImage,
+        minWidth: EXPORT_MIN_WIDTH
       })
 
       const blob = await canvasToPngBlob(canvas)
@@ -180,7 +186,7 @@ export default function EditorDownloadButton({
       <div className="mt-2 flex items-start justify-between gap-3 text-[10px] leading-relaxed text-black/35">
         <span>Satu gambar gabungan, sesuai pengaturan terakhir.</span>
         <span className="shrink-0 uppercase tracking-[0.12em]">
-          Resolusi asli
+          Resolusi tinggi
         </span>
       </div>
 
